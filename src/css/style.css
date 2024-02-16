@@ -1,0 +1,425 @@
+/*
+    Inlämningsuppgift 1 - FE23 Javascript 2
+    Kristoffer Bengtsson
+    Yasir Kakar
+
+    Main layout stylesheet.
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+}
+
+.feedback-statuseffect {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.5rem;
+    margin: 0.25rem 0.1rem;
+    border-radius: 12px;
+    color: white;
+}
+
+#messages {
+    background-color: rgb(54, 54, 94);
+    color: white;
+    padding: 1rem;
+    margin: 0.5rem auto;
+    max-width: 900px;
+}
+
+#messages::before {
+    content: 'Combat Log';
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    display: block;
+    border-bottom: 1px solid orange;
+    color: orange;
+    margin-bottom: 0.5rem;
+}
+
+#messages strong {
+    color: orange;
+}
+
+.game-message {
+    margin-bottom: 0.5rem;
+}
+
+#errors {
+    display: none;
+    background-color: darkred;
+    color: white;
+    padding: 1rem;
+    margin: 2rem 0.5rem 0.5rem 0.5rem;
+}
+
+#errors.show {
+    display: block;
+}
+
+
+#players {
+    display: flex;
+    margin-bottom: 3rem;
+}
+
+#players img {
+    display: block;
+    width: 40px;
+}
+
+#players .avatar-icon {
+    width: 100px;
+}
+
+.game-players {
+    display: flex;
+    justify-content: center;
+}
+
+/********** Action Feedback ***********/
+
+#player-indicator {
+    font-size: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+#player-indicator .player-indicator-archer {
+    width: 80px;
+    margin-top: 40px;
+    margin-bottom: 15px;
+}
+
+#player-indicator .feedback-damage {
+    font-size: 1rem;
+    font-weight: 700;
+    color: darkred;
+    margin: 0;
+}
+
+#player-indicator .feedback-healing {
+    font-size: 1rem;
+    font-weight: 700;
+    color: darkgreen;
+    margin: 0;
+}
+
+.activeplayer {
+    outline: 8px solid yellow;
+}
+
+/********** Player Cards **********/
+
+.game-player {
+    display: grid;
+    min-width: 425px;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+        "player-name avatar-icon"
+        "player-class avatar-icon"
+        "player-health avatar-icon"
+        "player-defense avatar-icon"
+        "player-effects player-effects"
+        "player-buttons player-buttons";
+    margin: 0.5rem;
+    padding: 1rem;
+    background-color: lightgray;
+}
+
+.player-name {
+    grid-area: player-name;
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.player-class {
+    grid-area: player-class;
+}
+
+.player-health {
+    grid-area: player-health;
+}
+
+.player-defense {
+    grid-area: player-defense;
+}
+
+.player-effects {
+    grid-area: player-effects;
+    display: flex;
+    list-style-type: none;
+    margin: 0.25rem 0 0 0;
+    padding: 0;
+    gap: 0.2rem;
+}
+
+.player-effects li span {
+    background-color: rgb(0, 0, 0, 0.7);
+    color: white;
+    font-size: 0.8em;
+    margin: 0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 10px;
+}
+
+#players .status-stun, 
+#players .status-burn {
+    background-color: darkred;
+}
+
+#players .status-heal, 
+#players .status-cure {
+    background-color: darkgreen;
+}
+
+#players .status-evade, 
+#players .status-riposte {
+    background-color: darkblue;
+}
+
+.avatar-icon {
+    grid-area: avatar-icon;
+}
+
+.skill-buttons {
+    grid-area: player-buttons;
+}
+
+.skill-button-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    gap: 0.35rem;
+    width: 100%;
+    border: 0;
+    margin: 1rem 0 0 0;
+    padding: 0;
+}
+
+.player-skill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 0;
+    margin: 0;
+    padding: 0.5rem;
+    min-width: 6rem;
+    min-height: 4rem;
+    color: darkblue;
+    cursor: pointer;
+}
+
+#players .player-skill:disabled {
+    color: gray;
+    cursor: default;
+}
+
+.player-skill:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#players .player-skill:disabled:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.player-effects span,
+.player-name span,
+.player-class span,
+.player-health span,
+.player-defense span {
+    font-weight: 700;
+}
+
+.player-skill-tooltip {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0px;
+    pointer-events: none;
+    padding: 0.9rem;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.95);
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+#players .feedback-skillIcon{
+    width: 60px;
+
+}
+.player-skill:hover + .player-skill-tooltip {
+    display: block;
+}
+
+/********** Game Over Box ***********/
+
+#gameover {
+    background-image: url("../images/bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 320px;
+    min-width: 320px;
+    border: 0;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#gameover h2 {
+    font-size: 3.8em;
+    color: rgba(255,255,255,0.65);
+    margin: 0.5rem 0px 0px 0px;
+    text-shadow: 0px 0px 10px rgba(0,0,0,0.75);
+}
+
+#gameover div {
+    color: rgb(0, 0, 139, 0.9);
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    font-size: 1.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+#gameover::backdrop {
+    background-color: rgba(0,0,0, 0.8);
+}
+
+#gameover button{
+    color: rgb(4, 0, 224);
+    font-weight: 700;
+    width: 100px;
+    margin: 0.3rem 0;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+/********** NEW PLAYERS FORM STYLING ***********/
+
+#new-players-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#new-players-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.start-game-button-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+#start-game-button {
+    padding: 1rem;
+    font-size: 1.5em;
+}
+
+.new-player-box {
+    margin: 0.5rem;
+    padding: 1.5rem;
+    background-color: lightgray;
+    min-width: 250px;
+}
+
+.new-player-box input[type="text"] {
+    padding: 0.4rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0, 0.5);
+}
+
+.new-player-box label:not(.input-box-label) {
+    display: block;
+    font-weight: 700;
+    margin-top: 1rem;
+}
+
+.new-player-box h2 {
+    margin-top: 0;
+}
+
+.input-box-label img {
+    max-width: 50px;
+    border-radius: 50%;
+}
+
+.new-player-class-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.new-player-class-wrapper label {
+    display: flex;
+    align-items: center;
+    position: relative;
+    left: -20px;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem 0.4rem 0.5rem;
+}
+
+.new-player-class-wrapper input {
+    visibility: hidden;
+}
+
+.new-player-class-wrapper input:checked ~ label {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+}
+
+
+
+/********** FIGHTER TYPE STYLING ***********/
+
+.fighterclass-warrior {
+    background-color: rgb(217, 152, 152);
+}
+
+.fighterclass-mage {
+    background-color: lightblue;
+}
+
+.fighterclass-rogue {
+    background-color: lightgreen;
+}
+
+.fighterclass-mage.activeplayer {
+    outline: 8px solid blue;
+}
+
+.fighterclass-rogue.activeplayer {
+    outline: 8px solid green;
+}
+
+.fighterclass-warrior.activeplayer {
+    outline: 8px solid red;
+}
+
+.fighterclass-warrior .player-skill {
+    color: darkred;
+}
+
+.fighterclass-mage .player-skill {
+    color: darkblue;
+}
+
+.fighterclass-rogue .player-skill {
+    color: darkgreen;
+}
+
+
